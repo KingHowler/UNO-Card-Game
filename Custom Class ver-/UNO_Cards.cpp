@@ -18,6 +18,7 @@ class Card {
         case 12: std::cout << "Draw Two" << '\n';break;
         case 13: std::cout << "Wild" << '\n';break;
         case 14: std::cout << "Draw Four" << '\n';break;
+        case -1: std::cout << '\n';;break;
         default : std::cout << Number << '\n';
       }
     }
@@ -61,7 +62,7 @@ void CreateCards() {
 
   for (int i = 0; i < 8; i++) {
     Colourless[i].Colour = 0;
-    if ((i % 2) == 1) {
+    if ((i % 2) == 0) {
       Colourless[i].Number = 13;
     } else {Colourless[i].Number = 14;}
   }
