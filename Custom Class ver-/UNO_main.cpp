@@ -10,11 +10,20 @@ extern Card Green[];
 extern Card Yellow[];
 extern Card Colourless[];
 
-int main() {
+extern Card p1[];
 
-  CreateCards();
+int main() {
   std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
+
+  CreateCards();
+  ShuffleCards(1,30);
+
+  for (int i = 0; i < 30; i++) {
+    p1[i].printColour();
+    p1[i].printNumber();
+  }
+  std::cout << '\n' << '\n';
   for (int i = 0; i < 25; i++) {
     Red[i].printColour();
     Red[i].printNumber();
