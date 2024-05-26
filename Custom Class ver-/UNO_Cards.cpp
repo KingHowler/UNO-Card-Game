@@ -40,6 +40,7 @@ Card p4[108];
 Card DiscardPile[108];
 
 int cardsRemaining[5] = {25,25,25,25,8};
+int players,cards;
 
 void CreateCards() {
 
@@ -79,6 +80,7 @@ void CreateCards() {
     p2[i] = noCard;
     p3[i] = noCard;
     p4[i] = noCard;
+    DiscardPile[i] = noCard;
   }
 }
 
@@ -94,7 +96,7 @@ void DrawCard(int playerNo, int index) {
     if (75  > Number && Number >  50) {colour = 2;}
     if (50  > Number && Number >  25) {colour = 1;}
     if (25  > Number && Number >   0) {colour = 0;}
-  } while(cardsRemaining[colour] <= 0);
+  } while(cardsRemaining[colour] <= 0 || (playerNo == 9 && colour == 4));
 
   // Select Card, add to player deck, update Cards list
   switch (colour) {
@@ -175,7 +177,7 @@ void DrawCard(int playerNo, int index) {
   }
 }
 
-void ShuffleCards(int players, int cards) {
+void ShuffleCards() {
   if (players >= 1) { // Shuffle Cards for Player 1
     for (int i = 0; i < cards; i++) { // Shuffle The number of Cards given as parmaeters
       DrawCard(1, i);
@@ -200,9 +202,6 @@ void ShuffleCards(int players, int cards) {
 
 void StartGame() {
   std::srand(static_cast<unsigned int>(std::time(nullptr)));
-  int players;
-  int cards;
-
   do {
     std::cout <<         "Enter Number of Players 1-4                    :  ";
     std::cin >> players;
@@ -212,6 +211,122 @@ void StartGame() {
   } while(((108 - (players*cards)) < 21) || players > 4);
 
   CreateCards();
-  ShuffleCards(players, cards);
-  DrawCard(9,107);
+  ShuffleCards();
+  DrawCard(9,0);
+}
+
+void DisplayPlayerCards(int playerNo) {
+  switch (playerNo) {
+    case 0:
+      if (players >= 1) {
+        std::cout << "Player 1" << '\n';
+        for (int i = 0; i < cards; i++) {
+          std::cout << i + 1 << "    ";
+          p1[i].printColour();
+          p1[i].printNumber();
+        }
+      }
+      if (players >= 2) {
+        std::cout << '\n' << '\n';
+        std::cout << "Player 2" << '\n';
+        for (int i = 0; i < cards; i++) {
+          std::cout << i + 1 << "    ";
+          p2[i].printColour();
+          p2[i].printNumber();
+        }
+      }
+      if (players >= 3) {
+        std::cout << '\n' << '\n';
+        std::cout << "Player 3" << '\n';
+        for (int i = 0; i < cards; i++) {
+          std::cout << i + 1 << "    ";
+          p3[i].printColour();
+          p3[i].printNumber();
+        }
+      }
+      if (players == 4) {
+        std::cout << '\n' << '\n';
+        std::cout << "Player 4" << '\n';
+        for (int i = 0; i < cards; i++) {
+          std::cout << i + 1 << "    ";
+          p4[i].printColour();
+          p4[i].printNumber();
+        }
+      }
+    break;
+    case 1:
+      std::cout << "Player 1" << '\n';
+      for (int i = 0; i < cards; i++) {
+        std::cout << i + 1 << "    ";
+        p1[i].printColour();
+        p1[i].printNumber();
+      }
+    break;
+    case 2:
+      std::cout << "Player 2" << '\n';
+      for (int i = 0; i < cards; i++) {
+        std::cout << i + 1 << "    ";
+        p2[i].printColour();
+        p2[i].printNumber();
+      }
+    break;
+    case 3:
+      std::cout << "Player 3" << '\n';
+      for (int i = 0; i < cards; i++) {
+        std::cout << i + 1 << "    ";
+        p3[i].printColour();
+        p3[i].printNumber();
+      }
+    break;
+    case 4:
+      std::cout << "Player 4" << '\n';
+      for (int i = 0; i < cards; i++) {
+        std::cout << i + 1 << "    ";
+        p4[i].printColour();
+        p4[i].printNumber();
+      }
+    break;
+  }
+}
+
+void DisplayDrawPile() {
+  std::cout << "Red" << '\n';
+  for (int i = 0; i < 25; i++) {
+    std::cout << i + 1 << "    ";
+    Red[i].printColour();
+    Red[i].printNumber();
+  }
+  std::cout << '\n' << '\n' << "Blue" << '\n';
+  for (int i = 0; i < 25; i++) {
+    std::cout << i + 1 << "    ";
+    Blue[i].printColour();
+    Blue[i].printNumber();
+  }
+  std::cout << '\n' << '\n' << "Green" << '\n';
+  for (int i = 0; i < 25; i++) {
+    std::cout << i + 1 << "    ";
+    Green[i].printColour();
+    Green[i].printNumber();
+  }
+  std::cout << '\n' << '\n' << "Yellow" << '\n';
+  for (int i = 0; i < 25; i++) {
+    std::cout << i + 1 << "    ";
+    Yellow[i].printColour();
+    Yellow[i].printNumber();
+  }
+  std::cout << '\n' << '\n' << "Colourless" << '\n';
+  for (int i = 0; i < 8; i++) {
+    std::cout << i + 1 << "    ";
+    Colourless[i].printColour();
+    Colourless[i].printNumber();
+  }
+}
+
+void DisplayDiscardPile() {
+  std::cout << "Discard Pile" << '\n';
+  for (int i = 0; i < 108; i++) {
+    std::cout << i + 1 << "    ";
+    DiscardPile[i].printColour();
+    DiscardPile[i].printNumber();
+  }
 }
