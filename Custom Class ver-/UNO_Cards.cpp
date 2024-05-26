@@ -37,6 +37,10 @@ Card p2[108];
 Card p3[108];
 Card p4[108];
 
+Card DiscardPile[108];
+
+int cardsRemaining[5] = {25,25,25,25,8};
+
 void CreateCards() {
 
   for (int i = 0; i < 25; i++) {
@@ -78,265 +82,136 @@ void CreateCards() {
   }
 }
 
-void ShuffleCards(int players, int cards) {
+void DrawCard(int playerNo, int index) {
   int colour;
-  int colourSize;
-  int card;
-  int randomNumber;
+  int Number;
 
-  int cardsRemaining[5] = {25,25,25,25,8};
+  // Select Colour
+  do {
+    Number = (std::rand() % 108);
+    if (Number > 100) {colour = 4;}
+    if (100 > Number && Number >  75) {colour = 3;}
+    if (75  > Number && Number >  50) {colour = 2;}
+    if (50  > Number && Number >  25) {colour = 1;}
+    if (25  > Number && Number >   0) {colour = 0;}
+  } while(cardsRemaining[colour] <= 0);
 
+  // Select Card, add to player deck, update Cards list
+  switch (colour) {
+    case 4:
+    do {
+      Number = (std::rand() % 8);
+    } while(Colourless[Number].Number == -1);
+    switch (playerNo) {
+      case 1 : ; p1[index] = Colourless[Number]; break;
+      case 2 : ; p2[index] = Colourless[Number]; break;
+      case 3 : ; p3[index] = Colourless[Number]; break;
+      case 4 : ; p4[index] = Colourless[Number]; break;
+      case 9 : ; DiscardPile[index] = Colourless[Number]; break;
+    }
+    Colourless[Number] = noCard;
+    cardsRemaining[colour] = cardsRemaining[colour] - 1;
+    break;
 
+    case 3:
+    do {
+      Number = (std::rand() % 25);
+    } while(Yellow[Number].Number == -1);
+    switch (playerNo) {
+      case 1 : ; p1[index] = Yellow[Number]; break;
+      case 2 : ; p2[index] = Yellow[Number]; break;
+      case 3 : ; p3[index] = Yellow[Number]; break;
+      case 4 : ; p4[index] = Yellow[Number]; break;
+      case 9 : ; DiscardPile[index] = Yellow[Number]; break;
+    }
+    Yellow[Number] = noCard;
+    cardsRemaining[colour] = cardsRemaining[colour] - 1;
+    break;
+
+    case 2:
+    do {
+      Number = (std::rand() % 25);
+    } while(Green[Number].Number == -1);
+    switch (playerNo) {
+      case 1 : ; p1[index] = Green[Number]; break;
+      case 2 : ; p2[index] = Green[Number]; break;
+      case 3 : ; p3[index] = Green[Number]; break;
+      case 4 : ; p4[index] = Green[Number]; break;
+      case 9 : ; DiscardPile[index] = Green[Number]; break;
+    }
+    Green[Number] = noCard;
+    cardsRemaining[colour] = cardsRemaining[colour] - 1;
+    break;
+
+    case 1:
+    do {
+      Number = (std::rand() % 25);
+    } while(Blue[Number].Number == -1);
+    switch (playerNo) {
+      case 1 : ; p1[index] = Blue[Number]; break;
+      case 2 : ; p2[index] = Blue[Number]; break;
+      case 3 : ; p3[index] = Blue[Number]; break;
+      case 4 : ; p4[index] = Blue[Number]; break;
+      case 9 : ; DiscardPile[index] = Blue[Number]; break;
+    }
+    Blue[Number] = noCard;
+    cardsRemaining[colour] = cardsRemaining[colour] - 1;
+    break;
+
+    case 0:
+    do {
+      Number = (std::rand() % 25);
+    } while(Red[Number].Number == -1);
+    switch (playerNo) {
+      case 1 : ; p1[index] = Red[Number]; break;
+      case 2 : ; p2[index] = Red[Number]; break;
+      case 3 : ; p3[index] = Red[Number]; break;
+      case 4 : ; p4[index] = Red[Number]; break;
+      case 9 : ; DiscardPile[index] = Red[Number]; break;
+    }
+    Red[Number] = noCard;
+    cardsRemaining[colour] = cardsRemaining[colour] - 1;
+    break;
+  }
+}
+
+void ShuffleCards(int players, int cards) {
   if (players >= 1) { // Shuffle Cards for Player 1
     for (int i = 0; i < cards; i++) { // Shuffle The number of Cards given as parmaeters
-
-      // Select Colour
-      do {
-        randomNumber = (std::rand() % 108);
-        if (randomNumber > 100) {colour = 4; colourSize =  8;}
-        if (100 > randomNumber && randomNumber >  75) {colour = 3; colourSize = 25;}
-        if (75  > randomNumber && randomNumber >  50) {colour = 2; colourSize = 25;}
-        if (50  > randomNumber && randomNumber >  25) {colour = 1; colourSize = 25;}
-        if (25  > randomNumber && randomNumber >   0) {colour = 0; colourSize = 25;}
-      } while(cardsRemaining[colour] == 0);
-
-
-      // Select Card, add to player deck, update Cards list
-      switch (colour) {
-        case 4:
-        do {
-          card = (std::rand() % 8);
-        } while(Colourless[card].Number == -1);
-        p1[i] = Colourless[card];
-        Colourless[card] = noCard;
-        cardsRemaining[colour] = cardsRemaining[colour] - 1;
-        break;
-
-        case 3:
-        do {
-          card = (std::rand() % 25);
-        } while(Yellow[card].Number == -1);
-        p1[i] = Yellow[card];
-        Yellow[card] = noCard;
-        cardsRemaining[colour] = cardsRemaining[colour] - 1;
-        break;
-
-        case 2:
-        do {
-          card = (std::rand() % 25);
-        } while(Green[card].Number == -1);
-        p1[i] = Green[card];
-        Green[card] = noCard;
-        cardsRemaining[colour] = cardsRemaining[colour] - 1;
-        break;
-
-        case 1:
-        do {
-          card = (std::rand() % 25);
-        } while(Blue[card].Number == -1);
-        p1[i] = Blue[card];
-        Blue[card] = noCard;
-        cardsRemaining[colour] = cardsRemaining[colour] - 1;
-        break;
-
-        case 0:
-        do {
-          card = (std::rand() % 25);
-        } while(Red[card].Number == -1);
-        p1[i] = Red[card];
-        Red[card] = noCard;
-        cardsRemaining[colour] = cardsRemaining[colour] - 1;
-        break;
-      }
+      DrawCard(1, i);
     }
   }
   if (players >= 2) { // Shuffle Cards for Player 1
     for (int i = 0; i < cards; i++) { // Shuffle The number of Cards given as parmaeters
-
-      // Select Colour
-      do {
-        randomNumber = (std::rand() % 108);
-        if (randomNumber > 100) {colour = 4; colourSize =  8;}
-        if (100 > randomNumber && randomNumber >  75) {colour = 3; colourSize = 25;}
-        if (75  > randomNumber && randomNumber >  50) {colour = 2; colourSize = 25;}
-        if (50  > randomNumber && randomNumber >  25) {colour = 1; colourSize = 25;}
-        if (25  > randomNumber && randomNumber >   0) {colour = 0; colourSize = 25;}
-      } while(cardsRemaining[colour] == 0);
-
-
-      // Select Card, add to player deck, update Cards list
-      switch (colour) {
-        case 4:
-        do {
-          card = (std::rand() % 8);
-        } while(Colourless[card].Number == -1);
-        p2[i] = Colourless[card];
-        Colourless[card] = noCard;
-        cardsRemaining[colour] = cardsRemaining[colour] - 1;
-        break;
-
-        case 3:
-        do {
-          card = (std::rand() % 25);
-        } while(Yellow[card].Number == -1);
-        p2[i] = Yellow[card];
-        Yellow[card] = noCard;
-        cardsRemaining[colour] = cardsRemaining[colour] - 1;
-        break;
-
-        case 2:
-        do {
-          card = (std::rand() % 25);
-        } while(Green[card].Number == -1);
-        p2[i] = Green[card];
-        Green[card] = noCard;
-        cardsRemaining[colour] = cardsRemaining[colour] - 1;
-        break;
-
-        case 1:
-        do {
-          card = (std::rand() % 25);
-        } while(Blue[card].Number == -1);
-        p2[i] = Blue[card];
-        Blue[card] = noCard;
-        cardsRemaining[colour] = cardsRemaining[colour] - 1;
-        break;
-
-        case 0:
-        do {
-          card = (std::rand() % 25);
-        } while(Red[card].Number == -1);
-        p2[i] = Red[card];
-        Red[card] = noCard;
-        cardsRemaining[colour] = cardsRemaining[colour] - 1;
-        break;
-      }
+      DrawCard(2, i);
     }
   }
   if (players >= 3) { // Shuffle Cards for Player 1
     for (int i = 0; i < cards; i++) { // Shuffle The number of Cards given as parmaeters
-
-      // Select Colour
-      do {
-        randomNumber = (std::rand() % 108);
-        if (randomNumber > 100) {colour = 4; colourSize =  8;}
-        if (100 > randomNumber && randomNumber >  75) {colour = 3; colourSize = 25;}
-        if (75  > randomNumber && randomNumber >  50) {colour = 2; colourSize = 25;}
-        if (50  > randomNumber && randomNumber >  25) {colour = 1; colourSize = 25;}
-        if (25  > randomNumber && randomNumber >   0) {colour = 0; colourSize = 25;}
-      } while(cardsRemaining[colour] == 0);
-
-
-      // Select Card, add to player deck, update Cards list
-      switch (colour) {
-        case 4:
-        do {
-          card = (std::rand() % 8);
-        } while(Colourless[card].Number == -1);
-        p3[i] = Colourless[card];
-        Colourless[card] = noCard;
-        cardsRemaining[colour] = cardsRemaining[colour] - 1;
-        break;
-
-        case 3:
-        do {
-          card = (std::rand() % 25);
-        } while(Yellow[card].Number == -1);
-        p3[i] = Yellow[card];
-        Yellow[card] = noCard;
-        cardsRemaining[colour] = cardsRemaining[colour] - 1;
-        break;
-
-        case 2:
-        do {
-          card = (std::rand() % 25);
-        } while(Green[card].Number == -1);
-        p3[i] = Green[card];
-        Green[card] = noCard;
-        cardsRemaining[colour] = cardsRemaining[colour] - 1;
-        break;
-
-        case 1:
-        do {
-          card = (std::rand() % 25);
-        } while(Blue[card].Number == -1);
-        p3[i] = Blue[card];
-        Blue[card] = noCard;
-        cardsRemaining[colour] = cardsRemaining[colour] - 1;
-        break;
-
-        case 0:
-        do {
-          card = (std::rand() % 25);
-        } while(Red[card].Number == -1);
-        p3[i] = Red[card];
-        Red[card] = noCard;
-        cardsRemaining[colour] = cardsRemaining[colour] - 1;
-        break;
-      }
+      DrawCard(3, i);
     }
   }
   if (players == 4) { // Shuffle Cards for Player 1
     for (int i = 0; i < cards; i++) { // Shuffle The number of Cards given as parmaeters
-
-      // Select Colour
-      do {
-        randomNumber = (std::rand() % 108);
-        if (randomNumber > 100) {colour = 4; colourSize =  8;}
-        if (100 > randomNumber && randomNumber >  75) {colour = 3; colourSize = 25;}
-        if (75  > randomNumber && randomNumber >  50) {colour = 2; colourSize = 25;}
-        if (50  > randomNumber && randomNumber >  25) {colour = 1; colourSize = 25;}
-        if (25  > randomNumber && randomNumber >   0) {colour = 0; colourSize = 25;}
-      } while(cardsRemaining[colour] == 0);
-
-
-      // Select Card, add to player deck, update Cards list
-      switch (colour) {
-        case 4:
-        do {
-          card = (std::rand() % 8);
-        } while(Colourless[card].Number == -1);
-        p4[i] = Colourless[card];
-        Colourless[card] = noCard;
-        cardsRemaining[colour] = cardsRemaining[colour] - 1;
-        break;
-
-        case 3:
-        do {
-          card = (std::rand() % 25);
-        } while(Yellow[card].Number == -1);
-        p4[i] = Yellow[card];
-        Yellow[card] = noCard;
-        cardsRemaining[colour] = cardsRemaining[colour] - 1;
-        break;
-
-        case 2:
-        do {
-          card = (std::rand() % 25);
-        } while(Green[card].Number == -1);
-        p4[i] = Green[card];
-        Green[card] = noCard;
-        cardsRemaining[colour] = cardsRemaining[colour] - 1;
-        break;
-
-        case 1:
-        do {
-          card = (std::rand() % 25);
-        } while(Blue[card].Number == -1);
-        p4[i] = Blue[card];
-        Blue[card] = noCard;
-        cardsRemaining[colour] = cardsRemaining[colour] - 1;
-        break;
-
-        case 0:
-        do {
-          card = (std::rand() % 25);
-        } while(Red[card].Number == -1);
-        p4[i] = Red[card];
-        Red[card] = noCard;
-        cardsRemaining[colour] = cardsRemaining[colour] - 1;
-        break;
-      }
+      DrawCard(4, i);
     }
   }
+}
+
+void StartGame() {
+  std::srand(static_cast<unsigned int>(std::time(nullptr)));
+  int players;
+  int cards;
+
+  do {
+    std::cout <<         "Enter Number of Players 1-4                    :  ";
+    std::cin >> players;
+    std::cout << '\n' << "Enter Number of Cards Each Player should have  :  ";
+    std::cin >> cards;
+    std::cout << '\n' << '\n';
+  } while(((108 - (players*cards)) < 21) || players > 4);
+
+  CreateCards();
+  ShuffleCards(players, cards);
+  DrawCard(9,107);
 }

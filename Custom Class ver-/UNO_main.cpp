@@ -16,25 +16,12 @@ extern Card p3[];
 extern Card p4[];
 
 int main() {
-  std::srand(static_cast<unsigned int>(std::time(nullptr)));
-  int players;
-  int cards;
-
-  std::cout << "Enter Number of Players 1-4 :  ";
-  std::cin >> players;
-  std::cout << '\n' << "Enter Number of Cards Each :  " ;
-  std::cin >> cards;
-  std::cout << '\n' << '\n';
-
-
-
-  CreateCards();
-  ShuffleCards(players, cards);
+  StartGame();
 
   if (players >= 1) {
     std::cout << "Player 1" << '\n';
     for (int i = 0; i < cards; i++) {
-      std::cout << i << "    ";
+      std::cout << i + 1 << "    ";
       p1[i].printColour();
       p1[i].printNumber();
     }
@@ -43,7 +30,7 @@ int main() {
     std::cout << '\n' << '\n';
     std::cout << "Player 2" << '\n';
     for (int i = 0; i < cards; i++) {
-      std::cout << i << "    ";
+      std::cout << i + 1 << "    ";
       p2[i].printColour();
       p2[i].printNumber();
     }
@@ -52,7 +39,7 @@ int main() {
     std::cout << '\n' << '\n';
     std::cout << "Player 3" << '\n';
     for (int i = 0; i < cards; i++) {
-      std::cout << i << "    ";
+      std::cout << i + 1 << "    ";
       p3[i].printColour();
       p3[i].printNumber();
     }
@@ -61,7 +48,7 @@ int main() {
     std::cout << '\n' << '\n';
     std::cout << "Player 4" << '\n';
     for (int i = 0; i < cards; i++) {
-      std::cout << i << "    ";
+      std::cout << i + 1 << "    ";
       p4[i].printColour();
       p4[i].printNumber();
     }
@@ -69,31 +56,31 @@ int main() {
 
   std::cout << '\n' << '\n' << "Red" << '\n';
   for (int i = 0; i < 25; i++) {
-    std::cout << i  << "    ";
+    std::cout << i + 1 << "    ";
     Red[i].printColour();
     Red[i].printNumber();
   }
   std::cout << '\n' << '\n' << "Blue" << '\n';
   for (int i = 0; i < 25; i++) {
-    std::cout << i  << "    ";
+    std::cout << i + 1 << "    ";
     Blue[i].printColour();
     Blue[i].printNumber();
   }
   std::cout << '\n' << '\n' << "Green" << '\n';
   for (int i = 0; i < 25; i++) {
-    std::cout << i  << "    ";
+    std::cout << i + 1 << "    ";
     Green[i].printColour();
     Green[i].printNumber();
   }
   std::cout << '\n' << '\n' << "Yellow" << '\n';
   for (int i = 0; i < 25; i++) {
-    std::cout << i << "    ";
+    std::cout << i + 1 << "    ";
     Yellow[i].printColour();
     Yellow[i].printNumber();
   }
   std::cout << '\n' << '\n' << "Colourless" << '\n';
   for (int i = 0; i < 8; i++) {
-    std::cout << i << "    ";
+    std::cout << i + 1 << "    ";
     Colourless[i].printColour();
     Colourless[i].printNumber();
   }
