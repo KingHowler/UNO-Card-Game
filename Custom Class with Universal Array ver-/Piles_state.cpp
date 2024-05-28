@@ -1,26 +1,47 @@
+#pragma once
+
 #include <iostream>
-#include "GameMake.cpp"
+#include "Memory_unit.cpp"
 
-extern int PileCount[];
-
-extern Card Piles[];
-
-void ReorderArray(char pile) { // Reorder array so that there are no null cards in between
+void ReorderArray(char pile)
+{ // Reorder array so that there are no null cards in between
   bool process = true;
   int PlCMax;
   switch (pile)
   {
-    case 'r': PlCMax = 25;break;
-    case 'b': PlCMax = 25;break;
-    case 'g': PlCMax = 25;break;
-    case 'y': PlCMax = 25;break;
-    case 'c': PlCMax = 8;break;
-    case '1': PlCMax = 108;break;
-    case '2': PlCMax = 108;break;
-    case '3': PlCMax = 108;break;
-    case '4': PlCMax = 108;break;
-    case '9': PlCMax = 108;break;
-    default: process = false;break;
+  case 'r':
+    PlCMax = 25;
+    break;
+  case 'b':
+    PlCMax = 25;
+    break;
+  case 'g':
+    PlCMax = 25;
+    break;
+  case 'y':
+    PlCMax = 25;
+    break;
+  case 'c':
+    PlCMax = 8;
+    break;
+  case '1':
+    PlCMax = 108;
+    break;
+  case '2':
+    PlCMax = 108;
+    break;
+  case '3':
+    PlCMax = 108;
+    break;
+  case '4':
+    PlCMax = 108;
+    break;
+  case '9':
+    PlCMax = 108;
+    break;
+  default:
+    process = false;
+    break;
   }
   if (process == true)
   {
@@ -28,12 +49,16 @@ void ReorderArray(char pile) { // Reorder array so that there are no null cards 
     int NuC = 0;
     int PlC = 0;
 
-    do { // begin loop for null card search
+    do
+    { // begin loop for null card search
       flag = false;
-      if (Piles[NuC + Offset(pile)].Number == -1) { // check for null card
+      if (Piles[NuC + Offset(pile)].Number == -1)
+      { // check for null card
         PlC = NuC;
-        do { // if null card found, begin check for non-null card after null card
-          if (Piles[PlC + Offset(pile)].Number != -1) { // if playable card found, exchange with null card and set flag as true
+        do
+        { // if null card found, begin check for non-null card after null card
+          if (Piles[PlC + Offset(pile)].Number != -1)
+          { // if playable card found, exchange with null card and set flag as true
             Piles[NuC + Offset(pile)] = Piles[PlC + Offset(pile)];
             Piles[PlC + Offset(pile)] = noCard;
             flag = true;
@@ -46,7 +71,8 @@ void ReorderArray(char pile) { // Reorder array so that there are no null cards 
   }
 }
 
-void DisplayCards(char pile) {
+void DisplayCards(char pile)
+{
   bool process = true;
   int pileNo;
   switch (pile)
@@ -91,25 +117,28 @@ void DisplayCards(char pile) {
     std::cout << "Discard Pile" << '\n';
     pileNo = 9;
     break;
-  default: process = false;break;
+  default:
+    process = false;
+    break;
   }
   if (process == true)
   {
     ReorderArray(pile);
     for (int i = 0; i < PileCount[pileNo]; i++)
     {
-      std::cout << i + Offset(pile) << "    ";
+      std::cout << i << "    ";
       Piles[i + Offset(pile)].printColour();
       Piles[i + Offset(pile)].printNumber();
     }
   }
 }
 
-void DisplayPiles() {
+void DisplayUniversalPile()
+{
   for (int i = 0; i < 648; i++)
-    {
-      std::cout << i << "    ";
-      Piles[i].printColour();
-      Piles[i].printNumber();
-    }
+  {
+    std::cout << i << "    ";
+    Piles[i].printColour();
+    Piles[i].printNumber();
+  }
 }
