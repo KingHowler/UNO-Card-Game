@@ -1,26 +1,6 @@
 #pragma once
 #include "slave\memory.cpp"
 
-/*int FirstPlayer()
-{
-    for (int i = 1; i < 5; i++)
-    {
-        if (stillPlaying[i] == 1)
-        {
-            return i;
-        }
-    }
-}
-int LastPlayer()
-{
-    for (int i = 4; i > 0; i--)
-    {
-        if (stillPlaying[i] == 1)
-        {
-            return i;
-        }
-    }
-}*/
 void NextPlayer()
 {
     do
