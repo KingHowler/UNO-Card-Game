@@ -1,6 +1,4 @@
 #pragma once
-#include <cstdlib> // Include library for Random integers
-#include <ctime>   // Include library for getting time to seed the generator
 #include "slave\memory.cpp"
 
 void CreateCards()
@@ -65,7 +63,6 @@ void ShuffleCards()
         { // Shuffle The number of Cards given as input
             DrawCard(5, i);
         }
-        stillPlaying[1] = 1;
     }
     if (startingPlayers >= 2)
     { // Shuffle Cards for Player 2
@@ -73,7 +70,6 @@ void ShuffleCards()
         { // Shuffle The number of Cards given as input
             DrawCard(6, i);
         }
-        stillPlaying[2] = 1;
     }
     if (startingPlayers >= 3)
     { // Shuffle Cards for Player 3
@@ -81,7 +77,6 @@ void ShuffleCards()
         { // Shuffle The number of Cards given as input
             DrawCard(7, i);
         }
-        stillPlaying[3] = 1;
     }
     if (startingPlayers == 4)
     { // Shuffle Cards for Player 4
@@ -89,7 +84,6 @@ void ShuffleCards()
         { // Shuffle The number of Cards given as input
             DrawCard(8, i);
         }
-        stillPlaying[4] = 1;
     }
 }
 
