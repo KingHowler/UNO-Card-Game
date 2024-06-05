@@ -1,11 +1,14 @@
 #include "main/UNO.cpp"
 int main()
 {
-    UNO();
-    while (true)
+    char playAgain = 'y';
+    while (playAgain = 'y')
     {
-        /* code */
+        ResetVariables();
+        UNO();
+        std::cout << "Play Again? [y for yes / anything else for no]";
+        std::cin >> playAgain;
+        std::cout << '\n';
     }
-
     return 0;
 }

@@ -1,28 +1,11 @@
 #pragma once
 #include "slave\memory.cpp"
-
-void NextPlayer()
-{
-    do
-    {
-        currentPlayer += orderOfTurns;
-        if (currentPlayer == startingPlayers + 1)
-        {
-            currentPlayer = 1;
-        }
-        if (currentPlayer == 0)
-        {
-            currentPlayer = startingPlayers;
-        }
-    } while (playersDone[currentPlayer] == 1);
-}
 bool MoveCardToDiscardPile(int index)
 {
     bool success = true;
     bool process = true;
     Card LastDiscard;
     Card cardFromPile;
-
     if (currentPlayer < 5 || currentPlayer > 0)
     {
         currentPlayer += 4;
@@ -84,7 +67,18 @@ bool SwitchTurn()
     {
         success = true;
         playsOfCurrentPlayer = 0;
-        NextPlayer();
+        do
+        {
+            currentPlayer += orderOfTurns;
+            if (currentPlayer == startingPlayers + 1)
+            {
+                currentPlayer = 1;
+            }
+            if (currentPlayer == 0)
+            {
+                currentPlayer = startingPlayers;
+            }
+        } while (playersDone[currentPlayer] == 1);
     }
     return success;
 }
@@ -134,14 +128,12 @@ void OutputResults()
         std::cout << "Player " << position[i] << " placed " << i << '\n';
     }
 }
-
 void FDE()
 {
     currentPlayer = 1;
     orderOfTurns = 1;
     bool validMove;
     int buffCurrentPlayer;
-
     std::cout << '\n'
               << '\n';
     DisplayCards(5);
@@ -249,7 +241,6 @@ void FDE()
             {
                 playsOfCurrentPlayer = 1;
             }
-
             SwitchTurn();
             std::cout << '\n'
                       << '\n';

@@ -1,16 +1,13 @@
 #pragma once
 #include <iostream>
-#include <cstdlib> // Include library for Random integers
-#include <ctime>   // Include library for getting time to seed the generator
-
+#include <cstdlib>
+#include <ctime>
 class Card
-{ // Create a class for Card object
+{
 public:
-    int Colour, Number; // All Cards have a Colour and a Number in integer format
-
-    // Built-in Dictionary for user output
+    int Colour, Number;
     void printColour()
-    { // Translates integer value of Colour into an understandable string
+    {
         switch (Colour)
         {
         case 1:
@@ -27,9 +24,8 @@ public:
             break;
         }
     }
-
     void printNumber()
-    { // Translates integer value of Number into an understandable string
+    {
         switch (Number)
         {
         case 10:
@@ -56,16 +52,9 @@ public:
         }
     }
 };
-
-// Declare all the Card objects, 109 Cards : 108 playable & 1 null Card
 Card noCard;
-
-// Declare All Piles as a single Array of offsets
-Card Piles[25 + 25 + 25 + 25 + 8 + 108 + 108 + 108 + 108 + 108]; // [Red + Blue + Green + Yellow + Colorless + Player 1 + Player 2 + Player 3 + Player 4 + Discard Pile]
-
-//  Declare A counter for each section of the Piles[] array as a second synced array
-int PileCount[10] = {25, 25, 25, 25, 8, 0, 0, 0, 0, 0}; // Number of Cards in each pile {Red,Blue,Green,Yellow,Colourless,p1,p2,p3,p4,DiscardPile}
-
+Card Piles[25 + 25 + 25 + 25 + 8 + 108 + 108 + 108 + 108 + 108];
+int PileCount[10] = {25, 25, 25, 25, 8, 0, 0, 0, 0, 0};
 int startingPlayers;
 int startingCardsEach;
 int playsOfCurrentPlayer;
@@ -75,15 +64,13 @@ int indexOfCardToPlay;
 int stillPlaying[] = {0, 0, 0, 0, 0};
 int position[] = {0, 0, 0, 0, 0};
 int playersDone[] = {0, 0, 0, 0, 0};
-
-int Offset(int offsetOf) // Offset of Cards in each pile in the universal Pile {Red,Blue,Green,Yellow,Colourless,p1,p2,p3,p4,DiscardPile}
+int Offset(int offsetOf)
 {
     switch (offsetOf)
     {
     case 0:
         return 0;
         break;
-
     case 1:
         return 25;
         break;
@@ -113,11 +100,10 @@ int Offset(int offsetOf) // Offset of Cards in each pile in the universal Pile {
         break;
     }
 }
-
-void DrawCard(int pile, int index) // Move random Card from Draw Pile to playerNo's pile at position index
+void DrawCard(int pile, int index)
 {
-    bool process = true; // Paramenter Error Check to avoid crashes
-    switch (pile)        // check for pile
+    bool process = true;
+    switch (pile)
     {
     case 5:
         break;
@@ -133,17 +119,14 @@ void DrawCard(int pile, int index) // Move random Card from Draw Pile to playerN
         process = false;
         break;
     }
-    if (index > 107 || index < 0) // check for index
+    if (index > 107 || index < 0)
     {
         process = false;
     }
-
-    if (process == true) // run code if parameters is correct
+    if (process == true)
     {
         int color;
         int Number;
-
-        // Select Colour
         do
         {
             Number = (std::rand() % 108);
@@ -167,32 +150,30 @@ void DrawCard(int pile, int index) // Move random Card from Draw Pile to playerN
             {
                 color = 0;
             }
-        } while (PileCount[color] <= 0 || (pile == 9 && color == 4)); // Make sure to select non-empty pile and pile is not Colourless if player is DiscardPile
-        // Select Card, add to player deck, update Cards list
+        } while (PileCount[color] <= 0 || (pile == 9 && color == 4));
         switch (color)
         {
-        case 4: // Colourless
+        case 4:
             do
             {
                 Number = (std::rand() % 8);
-            } while (Piles[Number + Offset(color)].Number == -1); // Find a Card which is not a null Card
+            } while (Piles[Number + Offset(color)].Number == -1);
             break;
-        default: // Red or Blue or Green or Yellow
+        default:
             do
             {
                 Number = (std::rand() % 25);
-            } while (Piles[Number + Offset(color)].Number == -1); // Find a Card which is not a null Card
+            } while (Piles[Number + Offset(color)].Number == -1);
             break;
         }
-        Piles[index + Offset(pile)] = Piles[Number + Offset(color)]; // Place Card from Draw Pile Region of Universal Array to Region and index specified
-        Piles[Number + Offset(color)] = noCard;                      // Place null Card in draw pile to avoid duplicates of playable cards
-        PileCount[color] = PileCount[color] - 1;                     // Decrement the number of Cards in the draw pile appropiatly
-        PileCount[pile] = PileCount[pile] + 1;                       // Increment the number of cards in the pile drawn to
+        Piles[index + Offset(pile)] = Piles[Number + Offset(color)];
+        Piles[Number + Offset(color)] = noCard;
+        PileCount[color] = PileCount[color] - 1;
+        PileCount[pile] = PileCount[pile] + 1;
     }
 }
-
 void ReorderArray(int pile)
-{ // Reorder array so that there are no null cards in between
+{
     bool process = true;
     int PlCMax;
     switch (pile)
@@ -233,32 +214,30 @@ void ReorderArray(int pile)
     }
     if (process == true)
     {
-        bool flag; // initialize a flag for checking if there was a rearrangement, if there was no rearrangement in a complete loop then array is ordered
+        bool flag;
         int NuC = 0;
         int PlC = 0;
-
         do
-        { // begin loop for null card search
+        {
             flag = false;
             if (Piles[NuC + Offset(pile)].Number == -1)
-            { // check for null card
+            {
                 PlC = NuC;
                 do
-                { // if null card found, begin check for non-null card after null card
+                {
                     if (Piles[PlC + Offset(pile)].Number != -1)
-                    { // if playable card found, exchange with null card and set flag as true
+                    {
                         Piles[NuC + Offset(pile)] = Piles[PlC + Offset(pile)];
                         Piles[PlC + Offset(pile)] = noCard;
                         flag = true;
                     }
-                    PlC += 1; // increment counter for playable card check
-                } while (flag == false && PlC < PlCMax); // exit loop if flag is true or no more exchanges were made to restart check
+                    PlC += 1;
+                } while (flag == false && PlC < PlCMax);
             }
-            NuC += 1; // increment Null Card Check
-        } while (NuC < PlCMax && PlC < PlCMax); // order completed when no PC found till PlCMax spaces
+            NuC += 1;
+        } while (NuC < PlCMax && PlC < PlCMax);
     }
 }
-
 void DisplayCards(int pile)
 {
     bool process = true;
@@ -311,7 +290,6 @@ void DisplayCards(int pile)
                   << '\n';
     }
 }
-
 void DisplayUniversalPile()
 {
     for (int i = 0; i < 648; i++)
@@ -321,23 +299,20 @@ void DisplayUniversalPile()
         Piles[i].printNumber();
     }
 }
-
 void ResetVariables()
 {
-    PileCount[0] = 25; // Number of Cards in each pile {Red,Blue,Green,Yellow,Colourless,p1,p2,p3,p4,DiscardPile}
+    PileCount[0] = 25;
     PileCount[1] = 25;
     PileCount[2] = 25;
     PileCount[3] = 25;
     PileCount[4] = 8;
-
     for (int i = 0; i < 5; i++)
     {
         stillPlaying[i] = 0;
         position[i] = 0;
         playersDone[0] = 0;
-        // PileCount[i + 5] = 0;
+        PileCount[i + 5] = 0;
     }
-
     startingPlayers = 0;
     startingCardsEach = 0;
     playsOfCurrentPlayer = 0;
@@ -345,110 +320,3 @@ void ResetVariables()
     currentPlayer = 0;
     indexOfCardToPlay = 0;
 }
-
-/*
-
-void CreateCards()
-{ // Initialize the properties of the Cards
-
-    for (int i = 0; i < 25; i++)
-    { // Red,Blue,Green,Yellow
-        // Set Colours
-        Piles[i + Offset(0)].Colour = 1;
-        Piles[i + Offset(1)].Colour = 2;
-        Piles[i + Offset(2)].Colour = 3;
-        Piles[i + Offset(3)].Colour = 4;
-
-        // Set Numbers
-        if (i <= 12)
-        {
-            Piles[i + Offset(0)].Number = i;
-            Piles[i + Offset(1)].Number = i;
-            Piles[i + Offset(2)].Number = i;
-            Piles[i + Offset(3)].Number = i;
-        }
-        else
-        {
-            Piles[i + Offset(0)].Number = i - 12;
-            Piles[i + Offset(1)].Number = i - 12;
-            Piles[i + Offset(2)].Number = i - 12;
-            Piles[i + Offset(3)].Number = i - 12;
-        }
-    }
-
-    for (int i = 0; i < 8; i++)
-    { // Colourless
-        Piles[i + Offset(4)].Colour = 0;
-        if ((i % 2) == 0)
-        {
-            Piles[i + Offset(4)].Number = 13;
-        }
-        else
-        {
-            Piles[i + Offset(4)].Number = 14;
-        }
-    }
-    noCard.Number = -1;
-    noCard.Colour = -1;
-
-    for (int i = 0; i < 108; i++)
-    { // p1,p2,p3,p4,DiscardPile
-        ;
-        Piles[i + Offset(5)] = noCard;
-        Piles[i + Offset(6)] = noCard;
-        Piles[i + Offset(7)] = noCard;
-        Piles[i + Offset(8)] = noCard;
-        Piles[i + Offset(9)] = noCard;
-    }
-}
-
-void ShuffleCards()
-{ // Shuffle the cards for all players
-    if (startingPlayers >= 1)
-    { // Shuffle Cards for Player 1
-        for (int i = 0; i < startingCardsEach; i++)
-        { // Shuffle The number of Cards given as input
-            DrawCard(5, i);
-        }
-        stillPlaying[1] = 1;
-    }
-    if (startingPlayers >= 2)
-    { // Shuffle Cards for Player 2
-        for (int i = 0; i < startingCardsEach; i++)
-        { // Shuffle The number of Cards given as input
-            DrawCard(6, i);
-        }
-        stillPlaying[2] = 1;
-    }
-    if (startingPlayers >= 3)
-    { // Shuffle Cards for Player 3
-        for (int i = 0; i < startingCardsEach; i++)
-        { // Shuffle The number of Cards given as input
-            DrawCard(7, i);
-        }
-        stillPlaying[3] = 1;
-    }
-    if (startingPlayers == 4)
-    { // Shuffle Cards for Player 4
-        for (int i = 0; i < startingCardsEach; i++)
-        { // Shuffle The number of Cards given as input
-            DrawCard(8, i);
-        }
-        stillPlaying[4] = 1;
-    }
-}
-
-void StartGame()
-{                                                              // Initializes the game
-    std::srand(static_cast<unsigned int>(std::time(nullptr))); // Seed the generator
-    for (int i = 1; i < startingPlayers + 1; i++)
-    {
-        stillPlaying[i] = 1;
-    }
-
-    CreateCards();  // Create and initialize all Card objects and Arrays
-    ShuffleCards(); // Shuffle all cards and hand them to the players
-    DrawCard(9, 0); // Place a Card in the discard pile
-}
-
-*/
