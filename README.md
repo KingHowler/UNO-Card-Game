@@ -8,12 +8,12 @@
      - ```cp1[]```         : Contains the integer values of the Colour of each Card in Player 1's deck, is synced with ```p1[]```
      - ```dictionary[]```  : Converts the integer values in ```p1[]``` and ```cp1[]``` to strings describing the features of the card
    - Discontinued due to data handling complexity
-2. Custom Class
+2. Card Class
    - Uses a custom class ```Card```
      - All object with the class ```Card``` have integer values for ```Colour``` and a ```Number```
      - All objects with type Card have a built-in Ditcionary which describes the feature of the card when the functions ```printColour()``` and ```printNumber()``` are used
    - Discontinued due to data handling complexity
-3. Custom Class with Universal Arrays
+3. Card Class with Universal Array
    - Uses a custom class ```Card```
      - All object with the class ```Card``` have integer values for ```Colour``` and a ```Number```
      - All objects with type Card have a built-in Ditcionary which describes the feature of the card when the functions ```printColour()``` and ```printNumber()``` are used
@@ -32,7 +32,26 @@
        - Player 4
        - Discard Pile
      - A function ```Offset()``` is used to obtain data using an index between 0 and 107 instead of 0 and 647. This makes it easier to perform card manipulation procedures
-
+   - Discontinued due to integrating complexity
+4. Game Class, Card Class and Universal Array
+   - Uses a custom class ```UNO``` which contains all the game functions and data
+     - All cards are in a single Array called ```Piles[]```
+       - ```Piles[]``` is seperated into six regions of 108 in the following order
+         - Draw Pile
+           - Red Cards
+           - Blue Cards
+           - Green Cards
+           - Yellow Cards
+           - Colourless Cards
+         - Player 1
+         - Player 2
+         - Player 3
+         - Player 4
+         - Discard Pile
+      - A function ```Offset()``` is used to obtain data using an index between 0 and 107 instead of 0 and 647. This makes it easier to perform card manipulation procedures
+   - Uses a custom class ```Card```
+      - All object with the class ```Card``` have integer values for ```Colour``` and a ```Number```
+      - All objects with type Card have a built-in Ditcionary which describes the feature of the card when the functions ```printColour()``` and ```printNumber()``` are used
 ## Target Description
 - To initaialize the cards
 - To input
@@ -67,17 +86,3 @@
 - The game will generate properly described prompts whecn asking for each input
 - The game will output each player's hands and the discard pile every time a player passes a turn
 - The game will output a leaderboard when only 1 player is left
-### Structure - master.cpp
-![image not available](https://github.com/KingHowler/UNO_Card_Game/assets/68814294/e507c5ec-e446-496e-a2ce-64ec4051c871)
-
-
-### Structure - buildUNO.cpp
-![image not available](https://github.com/KingHowler/UNO_Card_Game/assets/68814294/35d525ec-c6bd-4a27-b1df-63f27037ae57)
-
-
-### Structure - FDE.cpp
-![image not available](https://github.com/KingHowler/UNO_Card_Game/assets/68814294/547581b9-1784-4fa7-af45-b70086d35ce2)
-
-
-### State Diagram
-![image not available](https://github.com/KingHowler/UNO_Card_Game/assets/68814294/f1905ed5-52f9-4144-ab84-c65cd917f7e4)
